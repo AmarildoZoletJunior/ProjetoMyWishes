@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:math';
 
 
 import 'package:faker/faker.dart';
@@ -36,8 +37,11 @@ class _MongoInsertState extends State<MongoInsert> {
     return ur;
   }
 
+  final _formKey = GlobalKey<FormState>();
+
   @override
   Widget build(BuildContext context) {
+    RegExp _regExp = RegExp(r'[^0-9]*([0-9]*).*');
     return Container(
       child: MaterialApp(
         home: Scaffold(
@@ -60,80 +64,92 @@ class _MongoInsertState extends State<MongoInsert> {
               ),
               Center(
                 child: Container(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Container(
-                          child: Text(
-                        "Adicionar Desejo a lista",
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                            fontSize: 30, fontWeight: FontWeight.bold),
-                      )),
-                      Container(
-                          margin: EdgeInsets.only(
-                              left: 50, right: 50, top: 20, bottom: 20),
-                          child: Text(
-                              "Seja criativo para o titulo e a descrição. Talvez este desejo esteja perto de se realizar",
-                              textAlign: TextAlign.center)),
-                      Container(
-                        width: 290,
-                        height: 100,
-                        child: TextFormField(
-                          controller: tituloController,
-                          decoration: InputDecoration(
-                            prefixIcon: Icon(Icons.favorite),
-                            labelText: 'Titulo',
-                            filled: true,
-                            fillColor: Colors.blue.shade100,
-                          ),
-                        ),
-                      ),
-                      Container(
-                        width: 290,
-                        height: 80,
-                        child: TextFormField(
-                          controller: motivoController,
-                          decoration: InputDecoration(
-                            prefixIcon: Icon(Icons.description),
-                            labelText: 'Descrição',
-                            filled: true,
-                            fillColor: Colors.blue.shade100,
-                          ),
-                        ),
-                      ),
-                      Container(
-                        width: 290,
-                        height: 80,
-                        child: TextFormField(
-                          controller: numberController,
-                          decoration: InputDecoration(
-                            prefixIcon: Icon(Icons.description),
-                            labelText: 'Digite um numero(Mágica)',
-                            filled: true,
-                            fillColor: Colors.blue.shade100,
-                          ),
-                        ),
-                      ),
-                      Container(
-                          width: 270,
-                          height: 100,
-                          child: ElevatedButton(
-                            onPressed: () {
-                              insert(tituloController.text,motivoController.text,numberController.text);
-                            },
+                  child: Form(
+                    key: _formKey,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Container(
                             child: Text(
-                              'Enviar',
-                              style: TextStyle(fontSize: 30),
+                          "Adicionar Desejo a lista",
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                              fontSize: 30, fontWeight: FontWeight.bold),
+                        )),
+                        Container(
+                            margin: EdgeInsets.only(
+                                left: 50, right: 50, top: 20, bottom: 20),
+                            child: Text(
+                                "Seja criativo para o titulo e a descrição. Talvez este desejo esteja perto de se realizar",
+                                textAlign: TextAlign.center)),
+                        Container(
+                          width: 290,
+                          height: 100,
+                          child: TextFormField(
+                            validator: (value){
+                              if(value.toString().length < 3){
+                                return 'Este campo necessita de pelo menos 3 caracteres';
+                              }
+                            },
+                            controller: tituloController,
+                            decoration: InputDecoration(
+                              errorStyle: TextStyle(
+                                fontSize: 11,
+                              ),
+                              prefixIcon: Icon(Icons.favorite),
+                              labelText: 'Titulo',
+                              filled: true,
+                              fillColor: Colors.blue.shade100,
                             ),
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor: Color(0xFF151E3D),
-                              shape: BeveledRectangleBorder(
-                                  borderRadius: BorderRadius.circular(12)),
+                          ),
+                        ),
+                        Container(
+                          width: 290,
+                          height: 80,
+                          margin: EdgeInsets.only(bottom: 20),
+                          child: TextFormField(
+                            validator: (value){
+                                if(value.toString().length < 3){
+                                  return 'Este campo necessita de pelo menos 3 caracteres';
+                              }
+                            },
+                            controller: motivoController,
+                            decoration: InputDecoration(
+                              errorStyle: TextStyle(
+                                fontSize: 11,
+                              ),
+                              prefixIcon: Icon(Icons.description),
+                              labelText: 'Descrição',
+                              filled: true,
+                              fillColor: Colors.blue.shade100,
                             ),
-                          ),),
-                    ],
+                          ),
+                        ),
+
+                        Container(
+                            width: 270,
+                            height: 100,
+                            child: ElevatedButton(
+                              onPressed: () {
+                                if (_formKey.currentState!.validate()) {
+                                  insert(tituloController.text,
+                                      motivoController.text,
+                                  );
+                                   }
+                                },
+                              child: Text(
+                                'Enviar',
+                                style: TextStyle(fontSize: 30),
+                              ),
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: Color(0xFF151E3D),
+                                shape: BeveledRectangleBorder(
+                                    borderRadius: BorderRadius.circular(12)),
+                              ),
+                            ),),
+                      ],
+                    ),
                   ),
                 ),
               ),
@@ -144,10 +160,10 @@ class _MongoInsertState extends State<MongoInsert> {
     );
   }
 
-  Future<void> insert(String titulo, String descricao,String url) async{
-    var myInt = int.parse(url);
-    assert(myInt is int);
-   var novo = await fetch(myInt);
+  Future<void> insert(String titulo, String descricao) async{
+    Random random = new Random();
+    int randomNumber = random.nextInt(200);
+   var novo = await fetch(randomNumber);
   var id = M.ObjectId();
   final data = MongoDbModel(
       id: id, titulo: titulo, descricao: descricao, url: novo);
