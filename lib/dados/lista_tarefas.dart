@@ -1,6 +1,6 @@
 
 
-import 'package:lista_flutter/tarefas.dart';
+import 'package:lista_flutter/config/tarefas.dart';
 
 class ListaTarefas{
   late List<Tarefas> tarefas;
@@ -9,44 +9,44 @@ class ListaTarefas{
     tarefas = [
       Tarefas(
         descricao: "Ler documentação Dart",
-        status: true,
+        status: "true",
       ),
       Tarefas(
         descricao: "Ler documentação Flutter",
-        status: false,
+        status: "false",
       ),
       Tarefas(
         descricao: "Criar meu primeiro App",
-        status: false,
+        status: "false",
 
       ),
       Tarefas(
         descricao: "Ler documentação Dart",
-        status: true,
+        status: "true",
       ),
       Tarefas(
         descricao: "Ler documentação Flutter",
-        status: false,
+        status: "false",
       ),
       Tarefas(
         descricao: "Criar meu primeiro App",
-        status: false,
+        status: "false",
 
       ),
       Tarefas(
         descricao: "Ler documentação Dart",
-        status: true,
+        status: "true",
       ),
       Tarefas(
         descricao: "Ler documentação Flutter",
-        status: false,
+        status: "false",
       ),
       Tarefas(
         descricao: "Criar meu primeiro App",
-        status: false,
+        status: "false",
 
       ),
-      Tarefas(descricao: "Terminar Codelabs", status: false)
+      Tarefas(descricao: "Terminar Codelabs", status: "false")
     ];
   }
 }

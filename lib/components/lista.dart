@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:lista_flutter/components/add.dart';
 
-import 'lista_tarefas.dart';
+import '../dados/lista_tarefas.dart';
+
 
 
 class Lista extends StatefulWidget {
@@ -8,7 +10,7 @@ class Lista extends StatefulWidget {
   Lista({Key? key}) : super(key: key);
 
   @override
-  State<Lista> createState() => _ListaState();
+  _ListaState createState() => _ListaState();
 }
 
 class _ListaState extends State<Lista> {
@@ -23,22 +25,12 @@ class _ListaState extends State<Lista> {
     return Scaffold(
       body: Stack(
         children: [
-          /*Positioned(
-            right: -,
-              child:
-              Container(
-                height:600,
-                width: 600,
-                decoration: const BoxDecoration(
-                  shape: BoxShape.circle,
-                  color: Colors.black,
-                ),
-              )
-          ), */
           Container(
+            //Tinta escorrendo png
             child: Image(image: AssetImage("image/preto.png"),) ,
           ),
           Row(
+            //Logo
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Container(
@@ -59,7 +51,9 @@ class _ListaState extends State<Lista> {
             ),
             clipBehavior: Clip.hardEdge,
             width: 350,
-            height: 520,
+            height: 450,
+
+            //Lista recebendo dados
             child: ListView.builder(
               itemCount: controller.tarefas.length,
               itemBuilder: (BuildContext contexto, int i){
@@ -74,7 +68,7 @@ class _ListaState extends State<Lista> {
                         topRight: Radius.circular(30.0),
                       ),
                     ),
-                    color: Color(0xFF93000A),
+                    color: Color(0xFF3C89D0),
                     child: ListTile(
                       leading: IconButton(
                           icon:Icon(Icons.arrow_forward),
@@ -102,13 +96,15 @@ class _ListaState extends State<Lista> {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Container(
-            margin: EdgeInsets.only(left: 15),
+            margin: EdgeInsets.only(left: 15,top: 10),
             width: 250,
             child: FloatingActionButton(
-              backgroundColor: Color(0xFF93000A),
+              backgroundColor: Color(0xFF151E3D),
               child: Icon(Icons.add),
               onPressed: (){
-                print("Estou imprimindo no console");
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => MongoInsert()));
               },
             ),
           ),

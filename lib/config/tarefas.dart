@@ -1,6 +1,6 @@
 class Tarefas{
   late String descricao;
-  late bool status;
+  late String status;
 
   Tarefas({required this.descricao, required this.status});
 }
