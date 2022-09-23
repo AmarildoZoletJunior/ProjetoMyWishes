@@ -10,16 +10,16 @@ import 'package:lista_flutter/dbhelp/MongoModel.dart';
 import 'package:lista_flutter/dbhelp/mongoconnect.dart';
 import 'package:mongo_dart/mongo_dart.dart' as M;
 
-class MongoInsert extends StatefulWidget {
-  const MongoInsert({Key? key}) : super(key: key);
+class MongoUpdate extends StatefulWidget {
+  const MongoUpdate({Key? key}) : super(key: key);
 
   @override
-  State<MongoInsert> createState() => _MongoInsertState();
+  State<MongoUpdate> createState() => MongoUpdate_();
 }
 
 
 
-class _MongoInsertState extends State<MongoInsert> {
+class MongoUpdate_ extends State<MongoUpdate> {
   var tituloController = new TextEditingController();
   var motivoController = new TextEditingController();
   var numberController = new TextEditingController();
@@ -41,7 +41,13 @@ class _MongoInsertState extends State<MongoInsert> {
 
   @override
   Widget build(BuildContext context) {
-    RegExp _regExp = RegExp(r'[^0-9]*([0-9]*).*');
+    MongoDbModel data = ModalRoute.of(context)!.settings.arguments as MongoDbModel;
+    if(data != null){
+      tituloController.text = data.titulo;
+      motivoController.text = data.descricao;
+      numberController.text = data.url;
+    }
+
     return Container(
       child: MaterialApp(
         home: Scaffold(
@@ -72,11 +78,11 @@ class _MongoInsertState extends State<MongoInsert> {
                       children: [
                         Container(
                             child: Text(
-                          "Adicionar Desejo a lista",
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                              fontSize: 30, fontWeight: FontWeight.bold),
-                        )),
+                              "Adicionar Desejo a lista",
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                  fontSize: 30, fontWeight: FontWeight.bold),
+                            )),
                         Container(
                             margin: EdgeInsets.only(
                                 left: 50, right: 50, top: 20, bottom: 20),
@@ -110,8 +116,8 @@ class _MongoInsertState extends State<MongoInsert> {
                           margin: EdgeInsets.only(bottom: 20),
                           child: TextFormField(
                             validator: (value){
-                                if(value.toString().length < 3){
-                                  return 'Este campo necessita de pelo menos 3 caracteres';
+                              if(value.toString().length < 3){
+                                return 'Este campo necessita de pelo menos 3 caracteres';
                               }
                             },
                             controller: motivoController,
@@ -128,26 +134,23 @@ class _MongoInsertState extends State<MongoInsert> {
                         ),
 
                         Container(
-                            width: 270,
-                            height: 100,
-                            child: ElevatedButton(
-                              onPressed: () {
-                                if (_formKey.currentState!.validate()) {
-                                  insert(tituloController.text,
-                                      motivoController.text,
-                                  );
-                                   }
-                                },
-                              child: Text(
-                                'Enviar',
-                                style: TextStyle(fontSize: 30),
-                              ),
-                              style: ElevatedButton.styleFrom(
-                               // backgroundColor: Color(0xFF151E3D),
-                                shape: BeveledRectangleBorder(
-                                    borderRadius: BorderRadius.circular(12)),
-                              ),
-                            ),),
+                          width: 270,
+                          height: 100,
+                          child: ElevatedButton(
+                            onPressed: () {
+                              update(data.id, tituloController.text, motivoController.text, numberController.text);
+                              print("asdasd");
+                            },
+                            child: Text(
+                              'Alterar',
+                              style: TextStyle(fontSize: 30),
+                            ),
+                            style: ElevatedButton.styleFrom(
+                              // backgroundColor: Color(0xFF151E3D),
+                              shape: BeveledRectangleBorder(
+                                  borderRadius: BorderRadius.circular(12)),
+                            ),
+                          ),),
                       ],
                     ),
                   ),
@@ -159,26 +162,9 @@ class _MongoInsertState extends State<MongoInsert> {
       ),
     );
   }
-
-  Future<void> insert(String titulo, String descricao) async{
-    Random random = new Random();
-    int randomNumber = random.nextInt(200);
-   var novo = await fetch(randomNumber);
-  var id = M.ObjectId();
-  final data = MongoDbModel(
-      id: id, titulo: titulo, descricao: descricao, url: novo);
-  var result = await MongoDatabase.insert(data);
-  ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Desejo inserido com sucesso",textAlign: TextAlign.center,)));
-  limpar();
-  Navigator.push(
-      context,
-      MaterialPageRoute(builder: (context) => Lista()));
-  }
-
-  void limpar(){
-    tituloController.text = "";
-    motivoController.text = "";
-    numberController.text = "";
+  Future<void> update(
+      var id, String titulo, String motivo,String url) async{
+    final updateData = MongoDbModel(id: id, titulo: titulo, descricao: motivo, url: url);
   }
 
 }

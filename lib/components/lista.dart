@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:lista_flutter/components/add.dart';
 
 import '../dados/lista_tarefas.dart';
+import 'card.dart';
 
 
 
@@ -52,42 +53,8 @@ class _ListaState extends State<Lista> {
             clipBehavior: Clip.hardEdge,
             width: 350,
             height: 450,
-
+          child: MongoData(),
             //Lista recebendo dados
-            child: ListView.builder(
-              itemCount: controller.tarefas.length,
-              itemBuilder: (BuildContext contexto, int i){
-                final tarefas = controller.tarefas;
-                return Container(
-                  width: 150,
-                  height: 90,
-                  child: Card(
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.only(
-                          bottomLeft: Radius.circular(30.0),
-                        topRight: Radius.circular(30.0),
-                      ),
-                    ),
-                    color: Color(0xFF3C89D0),
-                    child: ListTile(
-                      leading: IconButton(
-                          icon:Icon(Icons.arrow_forward),
-                        onPressed: (){
-                          print("Estou imprimindo no console");
-                        },
-                          ),
-                      title: Text(tarefas[i].descricao,
-                      style: const TextStyle(
-                        fontSize: 25,
-                        ),
-                      ),
-                    ),
-                  ),
-                );
-              },
-              padding: const EdgeInsets.all(10),
-
-            ),
           ),
         ),
     ],

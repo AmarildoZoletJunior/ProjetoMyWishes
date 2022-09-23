@@ -1,5 +1,4 @@
 
-
 import 'dart:developer';
 
 import 'package:lista_flutter/dbhelp/MongoModel.dart';
@@ -15,6 +14,13 @@ class MongoDatabase {
     inspect(db);
     userCollection = db.collection(USER_COLLECTION);
   }
+  static Future<void> update(MongoDbModel data) async{
+    var resultado = await userCollection.findOne({"_id": data.id});
+    resultado['titulo'] = data.titulo;
+    resultado['descricao'] = data.descricao;
+    resultado['url'] = data.url;
+    await userCollection.save(resultado);
+  }
 
   static Future<String> insert(MongoDbModel data) async{
     try{
@@ -29,5 +35,10 @@ class MongoDatabase {
       print(e.toString());
       return e.toString();
     }
+  }
+
+  static Future<List<Map<String,dynamic>>> pegarDados() async{
+    final arrayDados = await userCollection.find().toList();
+    return arrayDados;
   }
 }

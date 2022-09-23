@@ -3,6 +3,7 @@ import 'package:lista_flutter/components/add.dart';
 import 'package:lista_flutter/dbhelp/mongoconnect.dart';
 
 import 'Cores/color_schemes.dart';
+import 'components/card.dart';
 import 'components/lista.dart';
 
 void main() async {
