@@ -17,18 +17,19 @@ class _MongoDataState extends State<MongoData> {
         future: MongoDatabase.pegarDados(),
         builder: (context, AsyncSnapshot snapshot) {
       if (snapshot.connectionState == ConnectionState.waiting) {
-        return Center(
-          child: CircularProgressIndicator(),
-        );
+        return Center(child: Text("Não existe desejos cadastrados"),);
       }else{
         if(snapshot.hasData){
           var totalData = snapshot.data.length;
           print("Total data: ${totalData.toString()}");
-          return ListView.builder(
-            itemCount: snapshot.data.length,
-              itemBuilder: (context,index){
-            return CardList(MongoDbModel.fromJson(snapshot.data[index]));
-          });
+          return Container(
+            child: ListView.builder(
+                padding: EdgeInsets.only(top: 0),
+              itemCount: snapshot.data.length,
+                itemBuilder: (context,index){
+              return CardList(MongoDbModel.fromJson(snapshot.data[index]));
+            }),
+          );
         }else{
           return Center(child: Text("Não existe desejos cadastrados"),);
         }
@@ -37,16 +38,9 @@ class _MongoDataState extends State<MongoData> {
   }
   Widget CardList(MongoDbModel data){
   return Card(
-    shape: RoundedRectangleBorder(
-      borderRadius: BorderRadius.only(
-        bottomLeft: Radius.circular(30.0),
-        topRight: Radius.circular(30.0),
-      ),
-    ),
     color: Color(0xFF3C89D0),
     child: ListTile(
       contentPadding: EdgeInsets.all(10),
-    // thumbnail:Image.network("${data.url}"),)
       leading: Image.network("${data.url}"),
       title: Text('${data.titulo}'),
       trailing:Column(
@@ -62,7 +56,6 @@ class _MongoDataState extends State<MongoData> {
           ),
         ],
       ),
-
     ),
   );
   }

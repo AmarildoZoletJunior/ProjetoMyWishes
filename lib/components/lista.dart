@@ -1,13 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:lista_flutter/components/add.dart';
 
-import '../dados/lista_tarefas.dart';
 import 'card.dart';
 
-
-
 class Lista extends StatefulWidget {
-
   Lista({Key? key}) : super(key: key);
 
   @override
@@ -15,21 +11,31 @@ class Lista extends StatefulWidget {
 }
 
 class _ListaState extends State<Lista> {
-
-  var controller = ListaTarefas();
-
-  int selector = 0;
-
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
       body: Stack(
         children: [
+          Center(
+            child: Container(
+              margin: EdgeInsets.only(top: 150),
+              decoration: new BoxDecoration(
+                  color: Color(0xFF000000).withOpacity(0.2),
+                  borderRadius: new BorderRadius.only(
+                    bottomLeft: const Radius.circular(40.0),
+                    bottomRight: const Radius.circular(40.0),
+                  )),
+              width: 350,
+              height: 400,
+              child: MongoData(),
+              //Lista recebendo dados
+            ),
+          ),
           Container(
-
             //Tinta escorrendo png
-            child: Image(image: AssetImage("image/preto.png"),) ,
+            child: Image(
+              image: AssetImage("image/preto.png"),
+            ),
           ),
           Row(
             //Logo
@@ -37,42 +43,26 @@ class _ListaState extends State<Lista> {
             children: [
               Container(
                 margin: EdgeInsets.only(top: 40),
-                  width: 300,
-                 child: Image(image: AssetImage("image/logo.png"),),),
+                width: 300,
+                child: Image(
+                  image: AssetImage("image/logo.png"),
+                ),
+              ),
             ],
           ),
-      Center(
-          child: Container(
-            margin: EdgeInsets.only(top: 150),
-            decoration: new BoxDecoration(
-                color: Color(0xFF000000).withOpacity(0.2),
-                borderRadius: new BorderRadius.only(
-                    topLeft:  const  Radius.circular(40.0),
-                    topRight: const  Radius.circular(40.0),
-                    bottomLeft: const  Radius.circular(40.0),
-                    bottomRight: const  Radius.circular(40.0),)
-            ),
-            clipBehavior: Clip.hardEdge,
-            width: 350,
-            height: 450,
-          child: MongoData(),
-            //Lista recebendo dados
-          ),
-        ),
-    ],
+        ],
       ),
       floatingActionButton: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Container(
-            margin: EdgeInsets.only(left: 15,top: 10),
+            margin: EdgeInsets.only(left: 15, top: 10),
             width: 250,
             child: FloatingActionButton(
               backgroundColor: Color(0xFF151E3D),
               child: Icon(Icons.add),
-              onPressed: (){
-                Navigator.push(
-                    context,
+              onPressed: () {
+                Navigator.push(context,
                     MaterialPageRoute(builder: (context) => MongoInsert()));
               },
             ),
