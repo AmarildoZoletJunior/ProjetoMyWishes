@@ -21,6 +21,9 @@ class MongoDatabase {
     resultado['url'] = data.url;
     await userCollection.save(resultado);
   }
+static delete(MongoDbModel user) async{
+    await userCollection.remove(where.id(user.id));
+}
 
   static Future<String> insert(MongoDbModel data) async{
     try{

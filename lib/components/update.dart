@@ -165,6 +165,7 @@ class MongoUpdate_ extends State<MongoUpdate> {
   Future<void> update(
       var id, String titulo, String motivo,String url) async{
     final updateData = MongoDbModel(id: id, titulo: titulo, descricao: motivo, url: url);
+  await MongoDatabase.update(updateData).whenComplete(() => Navigator.pop(context));
   }
 
 }

@@ -45,17 +45,24 @@ class _MongoDataState extends State<MongoData> {
     ),
     color: Color(0xFF3C89D0),
     child: ListTile(
+      contentPadding: EdgeInsets.all(10),
     // thumbnail:Image.network("${data.url}"),)
       leading: Image.network("${data.url}"),
       title: Text('${data.titulo}'),
-      trailing:IconButton(
-        icon:Icon(Icons.arrow_forward),
-        onPressed: (){
-          Navigator.push(context, MaterialPageRoute(builder: (BuildContext context){
-              return MongoUpdate();
-          },settings: RouteSettings(arguments: data)));
-        },
+      trailing:Column(
+        children: [
+          IconButton(
+            icon:Icon(Icons.arrow_forward,size: 20,),
+            onPressed: (){
+              Navigator.push(context, MaterialPageRoute(builder: (BuildContext context){
+                  return MongoUpdate();
+              },settings: RouteSettings(arguments: data)))
+                  .then((value) => setState(() {}));
+            },
+          ),
+        ],
       ),
+
     ),
   );
   }
