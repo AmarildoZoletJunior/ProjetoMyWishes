@@ -41,7 +41,6 @@ class _MongoInsertState extends State<MongoInsert> {
 
   @override
   Widget build(BuildContext context) {
-    RegExp _regExp = RegExp(r'[^0-9]*([0-9]*).*');
     return Container(
       child: MaterialApp(
         home: Scaffold(
@@ -105,10 +104,15 @@ class _MongoInsertState extends State<MongoInsert> {
                           ),
                         ),
                         Container(
+                          constraints: BoxConstraints(
+                            maxHeight: 150,
+                          ),
                           width: 290,
                           height: 80,
                           margin: EdgeInsets.only(bottom: 20),
                           child: TextFormField(
+                            keyboardType: TextInputType.emailAddress,
+                            maxLines: null,
                             validator: (value){
                                 if(value.toString().length < 3){
                                   return 'Este campo necessita de pelo menos 3 caracteres';

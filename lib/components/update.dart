@@ -51,7 +51,7 @@ class MongoUpdate_ extends State<MongoUpdate> {
     return Container(
       child: MaterialApp(
         home: Scaffold(
-          backgroundColor: Color(0xFF3C89D0),
+          backgroundColor:  Color(0xFF880808),
           body: Stack(
             children: [
               Container(
@@ -78,7 +78,7 @@ class MongoUpdate_ extends State<MongoUpdate> {
                       children: [
                         Container(
                             child: Text(
-                              "Adicionar Desejo a lista",
+                              "Editar desejo",
                               textAlign: TextAlign.center,
                               style: TextStyle(
                                   fontSize: 30, fontWeight: FontWeight.bold),
@@ -87,7 +87,7 @@ class MongoUpdate_ extends State<MongoUpdate> {
                             margin: EdgeInsets.only(
                                 left: 50, right: 50, top: 20, bottom: 20),
                             child: Text(
-                                "Seja criativo para o titulo e a descrição. Talvez este desejo esteja perto de se realizar",
+                                "Nesta tela você pode editar seu titulo e descrição do desejo.",
                                 textAlign: TextAlign.center)),
                         Container(
                           width: 290,
@@ -111,10 +111,15 @@ class MongoUpdate_ extends State<MongoUpdate> {
                           ),
                         ),
                         Container(
+                          constraints: BoxConstraints(
+                            maxHeight: 150,
+                          ),
                           width: 290,
                           height: 80,
                           margin: EdgeInsets.only(bottom: 20),
                           child: TextFormField(
+                            keyboardType: TextInputType.emailAddress,
+                              maxLines: null,
                             validator: (value){
                               if(value.toString().length < 3){
                                 return 'Este campo necessita de pelo menos 3 caracteres';
@@ -133,24 +138,51 @@ class MongoUpdate_ extends State<MongoUpdate> {
                           ),
                         ),
 
-                        Container(
-                          width: 270,
-                          height: 100,
-                          child: ElevatedButton(
-                            onPressed: () {
-                              update(data.id, tituloController.text, motivoController.text, numberController.text);
-                              print("asdasd");
-                            },
-                            child: Text(
-                              'Alterar',
-                              style: TextStyle(fontSize: 30),
-                            ),
-                            style: ElevatedButton.styleFrom(
-                              // backgroundColor: Color(0xFF151E3D),
-                              shape: BeveledRectangleBorder(
-                                  borderRadius: BorderRadius.circular(12)),
-                            ),
-                          ),),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Container(
+                              width: 150,
+                              height: 80,
+                              child: ElevatedButton(
+                                onPressed: () async {
+                                  await MongoDatabase.delete(data);
+                                  setState(() {});
+                                  Navigator.push(context, MaterialPageRoute(builder: (BuildContext context){
+                                    return Lista();
+                                  }));
+                                },
+                                child: Text(
+                                  'Excluir',
+                                  style: TextStyle(fontSize: 30),
+                                ),
+                                style: ElevatedButton.styleFrom(
+                                    backgroundColor: Color(0xFF880808),
+                                  shape: BeveledRectangleBorder(
+                                      borderRadius: BorderRadius.circular(12)),
+                                ),
+                              ),),
+                            Container(
+                              margin: EdgeInsets.only(left: 20),
+                              width: 150,
+                              height: 80,
+                              child: ElevatedButton(
+                                onPressed: () {
+                                  update(data.id, tituloController.text, motivoController.text, numberController.text);
+                                  print("asdasd");
+                                },
+                                child: Text(
+                                  'Alterar',
+                                  style: TextStyle(fontSize: 30),
+                                ),
+                                style: ElevatedButton.styleFrom(
+                                  // backgroundColor: Color(0xFF151E3D),
+                                  shape: BeveledRectangleBorder(
+                                      borderRadius: BorderRadius.circular(12)),
+                                ),
+                              ),),
+                          ],
+                        ),
                       ],
                     ),
                   ),

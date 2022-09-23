@@ -27,6 +27,7 @@ class _ListaState extends State<Lista> {
       body: Stack(
         children: [
           Container(
+
             //Tinta escorrendo png
             child: Image(image: AssetImage("image/preto.png"),) ,
           ),
@@ -35,13 +36,14 @@ class _ListaState extends State<Lista> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Container(
+                margin: EdgeInsets.only(top: 40),
                   width: 300,
                  child: Image(image: AssetImage("image/logo.png"),),),
             ],
           ),
       Center(
           child: Container(
-            margin: EdgeInsets.only(top: 130),
+            margin: EdgeInsets.only(top: 150),
             decoration: new BoxDecoration(
                 color: Color(0xFF000000).withOpacity(0.2),
                 borderRadius: new BorderRadius.only(
